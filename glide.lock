@@ -1,0 +1,20 @@
+hash: eb73e82adb64ce69bba2033293cfdcb6918a2002db9c2991eed82dbec11f326d
+updated: 2018-01-24T04:55:40.375668311Z
+imports:
+- name: github.com/subchen/go-cli
+  version: 7bb3eb17d9dda6b2a23dfd1569b3cb7ebd971d8e
+- name: github.com/subchen/go-stack
+  version: dcf9c812b2098204a77c231919c319c41b912372
+- name: github.com/subchen/go-tableify
+  version: a2d7d89fc2bba4472ca2220022d4cc0ee6dfc858
+- name: github.com/ungerik/go-dry
+  version: 73dd38d72c6e74cdce93d0ca16de6da9d2e0b6e1
+- name: golang.org/x/text
+  version: 470f45bf29f4147d6fbd7dfd0a02a848e49f5bf4
+  subpackages:
+  - encoding
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/simplifiedchinese
+  - transform
+testImports: []
