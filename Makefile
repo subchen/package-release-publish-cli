@@ -1,5 +1,5 @@
 CWD    := $(shell pwd)
-NAME    := bpp
+NAME    := pts
 VERSION := 0.1.0
 
 LDFLAGS := -s -w \
