@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -9,7 +10,6 @@ import (
 	"github.com/subchen/go-cli"
 	"github.com/subchen/go-stack"
 	"github.com/subchen/go-stack/fs"
-	"github.com/ungerik/go-dry"
 )
 
 var gobuildFlags = struct {
@@ -70,13 +70,13 @@ func gobuildCommand() *cli.Command {
 		},
 		Action: func(c *cli.Context) {
 			if gobuildFlags.name == "" {
-				c.ShowError("no --name provided")
+				panic("no --name provided")
 			}
 			if gobuildFlags.version == "" {
-				c.ShowError("no --version provided")
+				panic("no --version provided")
 			}
 			if !fs.DirExists(gobuildFlags.sourceDir) {
-				c.ShowError("sourceDir is not exists")
+				panic("source-dir does not exists")
 			}
 
 			if !fs.DirExists(gobuildFlags.outputDir) {
