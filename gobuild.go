@@ -89,5 +89,13 @@ func gobuildCommand() *cli.Command {
 }
 
 func gobuild() {
+	ldflags := []string {
+		"-s",
+		"-w",
+		fmt.Sprintf("-X 'main.buildVersion=%s'", gobuildFlags.version),
+		fmt.Sprintf("-X 'main.buildDate=%s'", buildDate),
+		fmt.Sprintf("-X 'main.BuildGitRev=%s'", buildGitRev),
+		fmt.Sprintf("-X 'main.BuildGitCommit=%s'", buildGitCommit),
+	}
 
 }
