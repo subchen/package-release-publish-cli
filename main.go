@@ -16,12 +16,13 @@ var (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "publish-cli"
-	app.Usage = "Package, release, publish tool for application"
+	app.Name = "pts"
+	app.Usage = "Publish toolset for application"
 	app.Authors = "Guoqiang Chen <subchen@gmail.com>"
 
 	app.Commands = []*cli.Command{
 		sha256sumCommand(),
+		gobuildCommand(),
 	}
 
 	if buildVersion != "" {

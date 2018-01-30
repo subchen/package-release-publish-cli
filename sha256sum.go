@@ -8,7 +8,8 @@ import (
 
 	"github.com/subchen/go-cli"
 	"github.com/subchen/go-stack"
-	"github.com/ungerik/go-dry"
+	"github.com/subchen/go-stack/checksum"
+	"github.com/subchen/go-stack/fs"
 )
 
 func sha256sumCommand() *cli.Command {
@@ -21,18 +22,17 @@ func sha256sumCommand() *cli.Command {
 			}
 
 			for _, f := range c.Args() {
-				if !dry.FileExists(f) {
-					panic("file not exists: " + f)
-				}
-				if dry.FileIsDir(f) {
+				if fs.DirExists(f) {
 					files, err := ioutil.ReadDir(f)
 					gstack.PanicIfErr(err)
 
 					for _, file := range files {
 						sha256sum(filepath.Join(f, file.Name()))
 					}
-				} else {
+				} else if fs.FileExists(f) {
 					sha256sum(f)
+				} else {
+					panic("file not exists: " + f)
 				}
 			}
 		},
@@ -44,11 +44,11 @@ func sha256sum(file string) {
 		return
 	}
 
-	if dry.FileIsDir(file) {
+	if !fs.FileExists(file) {
 		return
 	}
 
 	fmt.Printf("sha256sum %s ...\n", file)
-	err := gstack.Sha256sumFile(file)
+	err := checksum.Sha256sumAsFile(file)
 	gstack.PanicIfErr(err)
 }
