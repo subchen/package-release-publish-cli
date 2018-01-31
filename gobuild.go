@@ -129,7 +129,7 @@ func gobuild() {
 			
 			// archive
 			if gobuildFlags.archive != "" {
-				archiveFilename := fs.BasenameWithoutExt(filename) + ".tar.gz"
+				archiveFilename := fs.BasenameWithoutExt(filename) + "." + gobuildFlags.archive
 				a := archive.New(archiveFilename)
 				defer a.Close()
 				err := a.Add(gobuildFlags.name, outputFilename)
