@@ -1,12 +1,17 @@
-hash: eb73e82adb64ce69bba2033293cfdcb6918a2002db9c2991eed82dbec11f326d
-updated: 2018-01-30T09:59:47.722937339Z
+hash: 282c04a4f4de904d0562bc729445bc6e480c814264b3c9977f88826025dc4494
+updated: 2018-01-31T06:28:18.476373331Z
 imports:
 - name: github.com/subchen/go-cli
-  version: b5ffd18831619a891637b58de3009823a53a0f7a
+  version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
 - name: github.com/subchen/go-stack
-  version: 769b7260864027435b7a6164ee95db6062e21d97
+  version: 6c8db31774cb539374b265f37f8664c124f69584
+  subpackages:
+  - archive
+  - archive/tar
+  - archive/zip
+  - checksum
+  - cmd
+  - fs
 - name: github.com/subchen/go-tableify
   version: a2d7d89fc2bba4472ca2220022d4cc0ee6dfc858
-- name: github.com/ungerik/go-dry
-  version: 73dd38d72c6e74cdce93d0ca16de6da9d2e0b6e1
 testImports: []

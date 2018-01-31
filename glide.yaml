@@ -1,9 +1,6 @@
-package: github.com/subchen/package-release-publish-cli
+package: github.com/subchen/publish-toolset
 import:
-- package: github.com/subchen/go-tableify
-  version: 1.x
 - package: github.com/subchen/go-cli
   version: 1.x
 - package: github.com/subchen/go-stack
   version: master
-- package: github.com/ungerik/go-dry

@@ -21,6 +21,7 @@ glide-vc:
 
 fmt:
 	@ go fmt $(PACKAGES)
+	@ goimports -w .
 
 build: \
     build-linux \
