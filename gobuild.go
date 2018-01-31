@@ -5,11 +5,15 @@ import (
 	"os"
 	"io/ioutil"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"time"
 
 	"github.com/subchen/go-cli"
 	"github.com/subchen/go-stack"
 	"github.com/subchen/go-stack/fs"
+	"github.com/subchen/go-stack/archive"
+	"github.com/subchen/go-stack/cmd"
 )
 
 var gobuildFlags = struct {
@@ -17,7 +21,7 @@ var gobuildFlags = struct {
 	version   string
 	goos      string
 	goarch    string
-	archived  bool
+	archive   string
 	sourceDir string
 	outputDir string
 }{}
@@ -50,10 +54,9 @@ func gobuildCommand() *cli.Command {
 				DefValue: "amd64",
 			},
 			{
-				Name:     "z,zip",
-				Desc:     "output archive file",
-				Value:    &gobuildFlags.archived,
-				DefValue: "false",
+				Name:     "archive",
+				Desc:     "archive format: zip or tar.gz, default is not archived",
+				Value:    &gobuildFlags.archive,
 			},
 			{
 				Name:     "s,source-dir",
@@ -89,6 +92,10 @@ func gobuildCommand() *cli.Command {
 }
 
 func gobuild() {
+	buildDate := time.Now().Format(time.RFC1123Z)
+	buildGitRev := cmd.ExecOutput("git", "rev-list", "HEAD", "--count")
+	buildGitCommit := cmd.ExecOutput("git", "describe", "--abbrev=0", "--always")
+
 	ldflags := []string {
 		"-s",
 		"-w",
@@ -98,4 +105,39 @@ func gobuild() {
 		fmt.Sprintf("-X 'main.BuildGitCommit=%s'", buildGitCommit),
 	}
 
+	for _, goos := range strings.Split(gobuild.goos, ",") {
+		goos = strings.TrimSpace(goos)
+		for _, goarch := range strings.Split(gobuild.goarch, ",") {
+			goarch = strings.TrimSpace(goarch)
+
+			filename := fmt.Sprintf("%s-%s-%s-%s", gobuildFlags.name, gobuildFlags.version, goos, goarch)
+			if runtime.GOOS == "windows" {
+				filename += ".exe"
+			}
+			outputFilename := filepath.Join(gobuildFlags.outputDir, filename)
+
+			cmdline := fmt.Sprintf(
+				`cd "%s" && GOOS=%s GOARCH=%s go build -ldflags "%s" -o "%s"`,
+				gobuildFlags.sourceDir,
+				goos,
+				goarch,
+				strings.Join(ldflags, " "),
+				outputFilename,
+			)
+			err := cmd.Shell(cmdline)
+			gstack.PanicIfErr(err)
+			
+			// archive
+			if gobuildFlags.archive != "" {
+				archiveFilename := fs.BasenameWithoutExt(filename) + ".tar.gz"
+				a := archive.New(archiveFilename)
+				defer a.Close()
+				err := a.Add(gobuildFlags.name, outputFilename)
+				gstack.PanicIfErr(err)
+				
+				err = os.Remove(outputFilename)
+				gstack.PanicIfErr(err)
+			}
+		}
+	}
 }
