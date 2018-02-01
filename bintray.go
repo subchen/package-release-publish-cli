@@ -7,8 +7,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/subchen/go-tableify"
 )
 
 type bintrayClient struct {
@@ -18,63 +16,38 @@ type bintrayClient struct {
 }
 
 type bintrayRepo struct {
-	Name            string   `json:"name" tableify:"-"`
-	Owner           string   `json:"owner"`
-	Type            string   `json:"type" tableify:"-"`
+	Name            string   `json:"name"`
+	Type            string   `json:"type"`
 	Private         bool     `json:"private"`
 	BusinessUnit    string   `json:"business_unit"`
-	Premium         bool     `json:"premium"`
 	Desc            string   `json:"desc"`
 	Labels          []string `json:"labels"`
-	Created         string   `json:"created"`
-	PackageCount    int      `json:"package_count" tableify:"-"`
-	GpgSignMetadata bool     `json:"gpg_sign_metadata"`
-	GpgSignFiles    bool     `json:"gpg_sign_files"`
-	GpgUseOwnerKey  bool     `json:"gpg_use_owner_key"`
-
-	//
-	LastUpdated string `json:"lastUpdated" tableify:"-"`
-
-	// Enterprise version
-	VersionUpdateMaxDays int `json:"version_update_max_days"`
-
-	// type=debian
-	DefaultDebianArchitecture string `json:"default_debian_architecture"`
-	DefaultDebianComponent    string `json:"default_debian_component"`
-	DefaultDebianDistribution string `json:"default_debian_distribution"`
-
-	// type=rpm
-	YumGroupsFile    string `json:"yum_groups_file"`
-	YumMetadataDepth int    `json:"yum_metadata_depth"`
+	GpgSignMetadata bool     `json:"gpg_sign_metadata,omitempty"`
+	GpgSignFiles    bool     `json:"gpg_sign_files,omitempty"`
+	GpgUseOwnerKey  bool     `json:"gpg_use_owner_key,omitempty"`
 }
 
 type bintrayPackage struct {
-	AttributeNames         []string      `json:"attribute_names"`
-	Attributes             string        `json:"attributes"`
-	Created                string        `json:"created"`
-	CustomLicenses         []string      `json:"custom_licenses"`
-	Desc                   string        `json:"desc"`
-	FollowersCount         int           `json:"followers_count"`
-	GithubReleaseNotesFile string        `json:"github_release_notes_file"`
-	GithubRepo             string        `json:"github_repo"`
-	IssueTrackerURL        string        `json:"issue_tracker_url"`
-	Labels                 []string      `json:"labels"`
-	LatestVersion          string        `json:"latest_version"`
-	Licenses               []string      `json:"licenses"`
-	LinkedToRepos          []interface{} `json:"linked_to_repos"`
-	Name                   string        `json:"name"`
-	Owner                  string        `json:"owner"`
-	Permissions            []interface{} `json:"permissions"`
-	PublicDownloadNumbers  bool          `json:"public_download_numbers"`
-	PublicStats            bool          `json:"public_stats"`
-	Rating                 int           `json:"rating"`
-	RatingCount            int           `json:"rating_count"`
-	Repo                   string        `json:"repo"`
-	SystemIds              []interface{} `json:"system_ids"`
-	Updated                string        `json:"updated"`
-	VcsURL                 string        `json:"vcs_url"`
-	Versions               []string      `json:"versions"`
-	WebsiteURL             string        `json:"website_url"`
+	Name                   string   `json:"name"`
+	Desc                   string   `json:"desc"`
+	Labels                 []string `json:"labels"`
+	Licenses               []string `json:"licenses"`
+	VcsURL                 string   `json:"vcs_url"`
+	WebsiteURL             string   `json:"website_url"`
+	IssueTrackerURL        string   `json:"issue_tracker_url"`
+	GithubRepo             string   `json:"github_repo"`
+	GithubReleaseNotesFile string   `json:"github_release_notes_file"`
+	PublicDownloadNumbers  bool     `json:"public_download_numbers"`
+	PublicStats            bool     `json:"public_stats"`
+}
+
+type bintrayVersion struct {
+	Name                     string `json:"name"`
+	Released                 string `json:"released,omitempty"`
+	Desc                     string `json:"desc"`
+	GithubReleaseNotesFile   string `json:"github_release_notes_file,omitempty"`
+	GithubUseTagReleaseNotes bool   `json:"github_use_tag_release_notes,omitempty"`
+	VcsTag                   string `json:"vcs_tag,omitempty"`
 }
 
 func newBintrayClient(subject, apikey string) *bintrayClient {
@@ -128,15 +101,12 @@ func (c *bintrayClient) RepoList() ([]*bintrayRepo, error) {
 	return nil, errors.New("status_code is not 200")
 }
 
-func testBintray() {
-	c := newBintrayClient("", "")
-	repolist, err := c.RepoList()
-	if err != nil {
-		fmt.Println(err)
-	}
 
-	t := tableify.New()
-	t.SetHeadersFromStruct(new(bintrayRepo))
-	t.AddRowObjectList(repolist)
-	t.Print()
+var bintrayFlags = struct {
+	subject string
+	apikey  string
+}{}
+
+func bintrayUpload() {
+	c := newBintrayClient(bintrayFlags.subject, bintrayFlags.apikey)
 }
