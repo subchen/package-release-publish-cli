@@ -129,7 +129,7 @@ func (c *bintrayClient) RepoList() ([]*bintrayRepo, error) {
 }
 
 func testBintray() {
-	c := newBintrayClient("subchen", "3bd86a64193bd6ecb27b3189aec576bd0eb03d63")
+	c := newBintrayClient("", "")
 	repolist, err := c.RepoList()
 	if err != nil {
 		fmt.Println(err)
