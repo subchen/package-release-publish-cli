@@ -1,6 +1,10 @@
-hash: 282c04a4f4de904d0562bc729445bc6e480c814264b3c9977f88826025dc4494
-updated: 2018-01-31T06:28:18.476373331Z
+hash: e542ffa87457642782c4276dfb1da8a69e76af28525bf995ea8cbbd5c9a69f1c
+updated: 2018-02-01T06:23:20.722249614Z
 imports:
+- name: github.com/bitly/go-simplejson
+  version: aabad6e819789e569bd6aabf444c935aa9ba1e44
+- name: github.com/mozillazg/request
+  version: 052232e32456da4751d789b61e89aba4a07a7e25
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
 - name: github.com/subchen/go-stack
@@ -12,6 +16,9 @@ imports:
   - checksum
   - cmd
   - fs
-- name: github.com/subchen/go-tableify
-  version: a2d7d89fc2bba4472ca2220022d4cc0ee6dfc858
+- name: golang.org/x/net
+  version: c4c3ea71919de159c9e246d7be66deb7f0a39a58
+  subpackages:
+  - proxy
+  - publicsuffix
 testImports: []

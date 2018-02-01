@@ -4,3 +4,5 @@ import:
   version: 1.x
 - package: github.com/subchen/go-stack
   version: master
+- package: github.com/mozillazg/request
+  version: 0.x

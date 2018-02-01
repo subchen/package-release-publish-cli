@@ -23,6 +23,7 @@ func main() {
 	app.Commands = []*cli.Command{
 		sha256sumCommand(),
 		gobuildCommand(),
+		bintrayCommand(),
 	}
 
 	if buildVersion != "" {
