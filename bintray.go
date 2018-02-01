@@ -7,10 +7,11 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	
+	"github.com/mozillazg/request"
 )
 
 type bintrayClient struct {
-	client  *http.Client
 	subject string
 	apikey  string
 }
@@ -38,7 +39,6 @@ type bintrayPackage struct {
 	GithubRepo             string   `json:"github_repo"`
 	GithubReleaseNotesFile string   `json:"github_release_notes_file"`
 	PublicDownloadNumbers  bool     `json:"public_download_numbers"`
-	PublicStats            bool     `json:"public_stats"`
 }
 
 type bintrayVersion struct {
@@ -52,55 +52,81 @@ type bintrayVersion struct {
 
 func newBintrayClient(subject, apikey string) *bintrayClient {
 	return &bintrayClient{
-		client:  http.DefaultClient,
 		subject: subject,
-		apikey:  apikey,
+		apikey : apikey,
 	}
 }
 
-func (c *bintrayClient) newRequestWithReader(method, url string, requestReader io.Reader, requestLength int64) (*http.Request, error) {
-	req, err := http.NewRequest(method, url, requestReader)
-	if err != nil {
-		return nil, err
-	}
-	if requestLength > 0 {
-		req.ContentLength = int64(requestLength)
-	}
-	if c.subject != "" {
-		req.SetBasicAuth(c.subject, c.apikey)
-	}
-	return req, nil
+func (c *bintrayClient) newRequest() *request.Request {
+	req := request.NewRequest(http.DefaultClient)
+	req.BasicAuth = request.BasicAuth{c.subject, c.apikey}
+	return req
 }
 
-// GET /repos/:subject
-func (c *bintrayClient) RepoList() ([]*bintrayRepo, error) {
-	url := "https://api.bintray.com/repos/" + c.subject
-
-	req, err := c.newRequestWithReader("GET", url, nil, 0)
+// POST /repos/:subject/:repo
+func (c *bintrayClient) repoCreate(repo *bintrayRepo, force bool) error {
+	url := fmt.Sprintf("https://api.bintray.com/repos/%s/%s", c.subject, repo.Name)
+	req := c.newRequest()
+	req.Json = repo
+	resp, err := req.Post(url)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	resp, err := c.client.Do(req)
-
-	if err != nil {
-		return nil, err
+	if !resp.OK() {
+		return errors.New(resp.Reason())
 	}
-
-	if resp.StatusCode == http.StatusOK {
-		body, err := ioutil.ReadAll(resp.Body)
-		defer resp.Body.Close()
-		if err != nil {
-			return nil, err
-		}
-
-		v := make([]*bintrayRepo, 0)
-		err = json.Unmarshal(body, &v)
-		return v, err
-	}
-
-	return nil, errors.New("status_code is not 200")
+	return nil
 }
 
+// POST /packages/:subject/:repo
+func (c *bintrayClient) packageCreate(pkg *bintrayPackage, repo string) error {
+	url := fmt.Sprintf("https://api.bintray.com/packages/%s/%s", c.subject, repo)
+	req := c.newRequest()
+	req.Json = pkg
+	resp, err := req.Post(url)
+	if err != nil {
+		return err
+	}
+	if !resp.OK() {
+		return errors.New(resp.Reason())
+	}
+	return nil
+}
+
+// POST /packages/:subject/:repo/:package/versions
+func (c *bintrayClient) packageCreate(version *bintrayVersion, repo string, pkg string) error {
+	url := fmt.Sprintf("https://api.bintray.com/packages/%s/%s/%s/versions", c.subject, repo, pkg)
+	req := c.newRequest()
+	req.Json = version
+	resp, err := req.Post(url)
+	if err != nil {
+		return err
+	}
+	if !resp.OK() {
+		return errors.New(resp.Reason())
+	}
+	return nil
+}
+
+// PUT /content/:subject/:repo/:package/:version/:file_path[?publish=0/1][?override=0/1][?explode=0/1]
+func (c *bintrayClient) bintrayUpload(repo string, pkg string, version string, path string, fileContent io.Reader) error {
+	url := fmt.Sprintf("https://api.bintray.com/content/%s/%s/%s/%s", c.subject, repo, pkg, version, path)
+	req := c.newRequest()
+	req.Headers = map[string]string{
+		"X-Bintray-Publish": "1",
+		"X-Bintray-Override": "1",
+		"X-Bintray-Explode": "1",
+	}
+	req.Body = fileContent
+	resp, err := req.Put(url)
+	if err != nil {
+		return err
+	}
+	if !resp.OK() {
+		return errors.New(resp.Reason())
+	}
+	return nil
+}
 
 var bintrayFlags = struct {
 	subject string
