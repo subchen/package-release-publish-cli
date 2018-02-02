@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/subchen/go-cli"
-	"github.com/subchen/go-stack"
-	"github.com/subchen/go-stack/archive"
 	"github.com/subchen/go-stack/cmd"
+	"github.com/subchen/go-stack/encoding/archive"
 	"github.com/subchen/go-stack/fs"
+	"github.com/subchen/go-stack/runs"
 )
 
 var gobuildFlags = struct {
@@ -76,11 +76,11 @@ func gobuildCommand() *cli.Command {
 			if gobuildFlags.version == "" {
 				panic("no --version provided")
 			}
-			if !fs.DirExists(gobuildFlags.sourceDir) {
+			if !fs.IsDir(gobuildFlags.sourceDir) {
 				panic("source-dir does not exists")
 			}
 
-			if !fs.DirExists(gobuildFlags.outputDir) {
+			if !fs.IsDir(gobuildFlags.outputDir) {
 				os.MkdirAll(gobuildFlags.outputDir, 0755)
 			}
 
@@ -92,9 +92,9 @@ func gobuildCommand() *cli.Command {
 func gobuild() {
 	buildDate := time.Now().Format(time.RFC1123Z)
 	buildGitRev, err := cmd.ExecOutput("git", "rev-list", "HEAD", "--count")
-	gstack.PanicIfErr(err)
+	runs.PanicIfErr(err)
 	buildGitCommit, err := cmd.ExecOutput("git", "describe", "--abbrev=0", "--always")
-	gstack.PanicIfErr(err)
+	runs.PanicIfErr(err)
 
 	ldflags := []string{
 		"-s",
@@ -126,7 +126,7 @@ func gobuild() {
 				outputFilename,
 			)
 			err := cmd.Shell(cmdline)
-			gstack.PanicIfErr(err)
+			runs.PanicIfErr(err)
 
 			// archive
 			if gobuildFlags.archive != "" {
@@ -142,11 +142,11 @@ func gobuild() {
 					name += ".exe"
 				}
 				err := a.Add(name, outputFilename)
-				gstack.PanicIfErr(err)
+				runs.PanicIfErr(err)
 
 				// remove binary
 				err = os.Remove(outputFilename)
-				gstack.PanicIfErr(err)
+				runs.PanicIfErr(err)
 			}
 		}
 	}

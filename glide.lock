@@ -1,5 +1,5 @@
 hash: e542ffa87457642782c4276dfb1da8a69e76af28525bf995ea8cbbd5c9a69f1c
-updated: 2018-02-01T06:23:20.722249614Z
+updated: 2018-02-02T05:58:16.510396649Z
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -8,13 +8,13 @@ imports:
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
 - name: github.com/subchen/go-stack
-  version: 6c8db31774cb539374b265f37f8664c124f69584
+  version: ce3c28d0b44a27638607962c9e9d8dafb8d48428
   subpackages:
-  - archive
-  - archive/tar
-  - archive/zip
-  - checksum
   - cmd
+  - encoding/archive
+  - encoding/archive/tar
+  - encoding/archive/zip
+  - encoding/sha256
   - fs
 - name: golang.org/x/net
   version: c4c3ea71919de159c9e246d7be66deb7f0a39a58

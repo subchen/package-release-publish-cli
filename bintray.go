@@ -8,7 +8,7 @@ import (
 
 	"github.com/mozillazg/request"
 	"github.com/subchen/go-cli"
-	"github.com/subchen/go-stack"
+	"github.com/subchen/go-stack/runs"
 )
 
 const BINTRAY_API_PREFIX = "https://api.bintray.com"
@@ -236,7 +236,7 @@ func bintrayCreateRepoCommand() *cli.Command {
 
 			bc := newBintrayClient(bintrayFlags.subject, bintrayFlags.apikey)
 			err := bc.repoCreate(repo, bintrayFlags.force)
-			gstack.PanicIfErr(err)
+			runs.PanicIfErr(err)
 		},
 	}
 }
@@ -296,7 +296,7 @@ func bintrayCreatePackageCommand() *cli.Command {
 
 			bc := newBintrayClient(bintrayFlags.subject, bintrayFlags.apikey)
 			err := bc.packageCreate(pkg, bintrayFlags.repoName, bintrayFlags.force)
-			gstack.PanicIfErr(err)
+			runs.PanicIfErr(err)
 		},
 	}
 }

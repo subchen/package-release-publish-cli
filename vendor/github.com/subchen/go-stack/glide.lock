@@ -1,5 +1,5 @@
 hash: ab8e6898075cad1c43bda097865a231ab3dfdc36f462ab6f2057c4c7023930f4
-updated: 2018-01-30T09:37:33.508041728Z
+updated: 2018-02-02T05:07:49.520568687Z
 imports:
 - name: golang.org/x/text
   version: 470f45bf29f4147d6fbd7dfd0a02a848e49f5bf4
@@ -9,4 +9,3 @@ imports:
   - encoding/internal/identifier
   - encoding/simplifiedchinese
   - transform
-testImports: []
