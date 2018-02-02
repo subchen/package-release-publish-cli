@@ -4,6 +4,9 @@ import (
 	"os"
 
 	"github.com/subchen/go-cli"
+	"github.com/subchen/publish-toolset/bintray"
+	"github.com/subchen/publish-toolset/gobuild"
+	"github.com/subchen/publish-toolset/sha256sum"
 )
 
 // version
@@ -21,9 +24,9 @@ func main() {
 	app.Authors = "Guoqiang Chen <subchen@gmail.com>"
 
 	app.Commands = []*cli.Command{
-		sha256sumCommand(),
-		gobuildCommand(),
-		bintrayCommand(),
+		sha256sum.Command(),
+		gobuild.Command(),
+		bintray.Command(),
 	}
 
 	if buildVersion != "" {

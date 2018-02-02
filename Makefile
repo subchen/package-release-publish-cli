@@ -21,7 +21,7 @@ glide-vc:
 
 fmt:
 	@ go fmt $(PACKAGES)
-	@ goimports -w .
+	@ goimports -w . bintray/ gobuild/ sha256sum/
 
 build: \
     build-linux \

@@ -1,4 +1,4 @@
-package main
+package sha256sum
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"github.com/subchen/go-stack/runs"
 )
 
-func sha256sumCommand() *cli.Command {
+func Command() *cli.Command {
 	return &cli.Command{
 		Name:  "sha256sum",
 		Usage: "add .sha256 checksum file",

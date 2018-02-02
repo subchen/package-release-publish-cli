@@ -1,4 +1,4 @@
-package main
+package gobuild
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ var gobuildFlags = struct {
 	outputDir string
 }{}
 
-func gobuildCommand() *cli.Command {
+func Command() *cli.Command {
 	return &cli.Command{
 		Name:  "gobuild",
 		Usage: "build go sources",
