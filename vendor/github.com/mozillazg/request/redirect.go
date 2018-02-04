@@ -1,13 +1,12 @@
 package request
 
 import (
-	"errors"
 	"net/http"
+	"errors"
 )
 
 // DefaultRedirectLimit define max redirect counts
 var DefaultRedirectLimit = 10
-
 // ErrMaxRedirect when redirect times great than DefaultRedirectLimit will return this error
 var ErrMaxRedirect = errors.New("Exceeded max redirects")
 

@@ -4,9 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"net/http"
-
 	"github.com/bmizerany/assert"
+	"net/http"
 )
 
 func TestCheckRedirectNoRedirect(t *testing.T) {
