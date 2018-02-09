@@ -37,19 +37,22 @@ func bintrayCreateVersionCommand() *cli.Command {
 		Usage: "create package version in repo",
 		Flags: []*cli.Flag{
 			{
-				Name:  "repo",
-				Usage: "bintray repository name",
-				Value: &versionFlags.repoName,
+				Name:   "repo",
+				Usage:  "bintray repository name",
+				Value:  &versionFlags.repoName,
+				EnvVar: "BINTRAY_REPO",
 			},
 			{
-				Name:  "package",
-				Usage: "bintray package name",
-				Value: &versionFlags.pkgName,
+				Name:   "package",
+				Usage:  "bintray package name",
+				Value:  &versionFlags.pkgName,
+				EnvVar: "BINTRAY_PACKAGE",
 			},
 			{
-				Name:  "version",
-				Usage: "bintray package version",
-				Value: &versionFlags.pkgVersion,
+				Name:   "version",
+				Usage:  "bintray package version",
+				Value:  &versionFlags.pkgVersion,
+				EnvVar: "BINTRAY_VERSION",
 			},
 		},
 		Action: func(_ *cli.Context) {
