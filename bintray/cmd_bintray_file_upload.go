@@ -40,19 +40,22 @@ func bintrayUploadCommand() *cli.Command {
 		Usage: "upload files",
 		Flags: []*cli.Flag{
 			{
-				Name:  "repo",
-				Usage: "bintray repository name",
-				Value: &uploadFlags.repoName,
+				Name:   "repo",
+				Usage:  "bintray repository name",
+				Value:  &uploadFlags.repoName,
+				EnvVar: "BINTRAY_REPO",
 			},
 			{
-				Name:  "package",
-				Usage: "bintray package name",
-				Value: &uploadFlags.pkgName,
+				Name:   "package",
+				Usage:  "bintray package name",
+				Value:  &uploadFlags.pkgName,
+				EnvVar: "BINTRAY_PACKAGE",
 			},
 			{
-				Name:  "version",
-				Usage: "bintray package version",
-				Value: &uploadFlags.pkgVersion,
+				Name:   "version",
+				Usage:  "bintray package version",
+				Value:  &uploadFlags.pkgVersion,
+				EnvVar: "BINTRAY_VERSION",
 			},
 			{
 				Name:     "path",
