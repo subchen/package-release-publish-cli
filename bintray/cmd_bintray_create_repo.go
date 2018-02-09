@@ -39,9 +39,10 @@ func bintrayCreateRepoCommand() *cli.Command {
 		Usage: "create repository",
 		Flags: []*cli.Flag{
 			{
-				Name:  "name",
-				Usage: "bintray repository name",
-				Value: &repoFlags.repoName,
+				Name:   "name",
+				Usage:  "bintray repository name",
+				Value:  &repoFlags.repoName,
+				EnvVar: "BINTRAY_REPO",
 			},
 			{
 				Name:     "type",
