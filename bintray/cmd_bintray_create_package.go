@@ -42,14 +42,16 @@ func bintrayCreatePackageCommand() *cli.Command {
 		Usage: "create package in repo",
 		Flags: []*cli.Flag{
 			{
-				Name:  "repo",
-				Usage: "bintray repository name",
-				Value: &pkgFlags.repoName,
+				Name:   "repo",
+				Usage:  "bintray repository name",
+				Value:  &pkgFlags.repoName,
+				EnvVar: "BINTRAY_REPO",
 			},
 			{
-				Name:  "name",
-				Usage: "bintray package name",
-				Value: &pkgFlags.pkgName,
+				Name:   "name",
+				Usage:  "bintray package name",
+				Value:  &pkgFlags.pkgName,
+				EnvVar: "BINTRAY_PACKAGE",
 			},
 			{
 				Name:     "license",
