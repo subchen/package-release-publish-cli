@@ -20,7 +20,7 @@ type bintrayVersion struct {
 func (c *bintrayClient) versionCreate(version *bintrayVersion, repo string, pkg string, forceCreate bool) error {
 	url := fmt.Sprintf("%s/packages/%s/%s/%s/versions", BINTRAY_API_PREFIX, c.subject, repo, pkg)
 	req := c.newRequest()
-	req.Json = version
+	req.JSON = version
 	resp, err := req.Post(url)
 	return c.getRespErr(resp, err, forceCreate)
 }
