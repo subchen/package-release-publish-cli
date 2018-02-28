@@ -23,7 +23,7 @@ type bintrayRepo struct {
 func (c *bintrayClient) repoCreate(repo *bintrayRepo, forceCreate bool) error {
 	url := fmt.Sprintf("%s/repos/%s/%s", BINTRAY_API_PREFIX, c.subject, repo.Name)
 	req := c.newRequest()
-	req.Json = repo
+	req.JSON = repo
 	resp, err := req.Post(url)
 	return c.getRespErr(resp, err, forceCreate)
 }
