@@ -24,7 +24,7 @@ type bintrayPackage struct {
 func (c *bintrayClient) packageCreate(pkg *bintrayPackage, repo string, forceCreate bool) error {
 	url := fmt.Sprintf("%s/packages/%s/%s", BINTRAY_API_PREFIX, c.subject, repo)
 	req := c.newRequest()
-	req.Json = pkg
+	req.JSON = pkg
 	resp, err := req.Post(url)
 	return c.getRespErr(resp, err, forceCreate)
 }
