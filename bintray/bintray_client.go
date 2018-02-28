@@ -39,11 +39,11 @@ func (c *bintrayClient) getRespErr(resp *curl.Response, err error, forceCreate b
 		if resp.StatusCode == 409 && forceCreate {
 			return nil
 		}
-		data, err := resp.JSON()
+		jq, err := json.NewQuery(resp.Content())
 		if err != nil {
 			return errors.New(resp.Status)
 		}
-		return errors.New(json.NewQuery(data).Query("message").AsString())
+		return errors.New(jq.Query("message").AsString())
 	}
 	return nil
 }
