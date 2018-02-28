@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/subchen/go-curl"
-	"github.com/subchen/go-stack/config/json"
+	"github.com/subchen/go-stack/data/json"
 )
 
 const BINTRAY_API_PREFIX = "https://api.bintray.com"
