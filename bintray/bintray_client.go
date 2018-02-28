@@ -4,7 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/mozillazg/request"
+	"github.com/subchen/go-curl"
+	"github.com/subchen/go-stack/config/json"
 )
 
 const BINTRAY_API_PREFIX = "https://api.bintray.com"
@@ -23,14 +24,14 @@ func newBintrayClient(subject, apikey string) *bintrayClient {
 	}
 }
 
-func (c *bintrayClient) newRequest() *request.Request {
-	req := request.NewRequest(new(http.Client))
-	req.BasicAuth = request.BasicAuth{c.subject, c.apikey}
+func (c *bintrayClient) newRequest() *curl.Request {
+	req := curl.NewRequest()
+	req.SetBasicAuth(c.subject, c.apikey)
 	return req
 }
 
 // POST /repos/:subject/:repo
-func (c *bintrayClient) getRespErr(resp *request.Response, err error, forceCreate bool) error {
+func (c *bintrayClient) getRespErr(resp *curl.Response, err error, forceCreate bool) error {
 	if err != nil {
 		return err
 	}
@@ -38,11 +39,11 @@ func (c *bintrayClient) getRespErr(resp *request.Response, err error, forceCreat
 		if resp.StatusCode == 409 && forceCreate {
 			return nil
 		}
-		json, err := resp.Json()
+		data, err := resp.JSON()
 		if err != nil {
-			return errors.New(resp.Reason())
+			return errors.New(resp.Status)
 		}
-		return errors.New(json.Get("message").MustString())
+		return errors.New(json.NewQuery(data).Query("message").AsString())
 	}
 	return nil
 }
