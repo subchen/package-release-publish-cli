@@ -1,16 +1,17 @@
-hash: e542ffa87457642782c4276dfb1da8a69e76af28525bf995ea8cbbd5c9a69f1c
-updated: 2018-02-06T03:17:39.540222157Z
+hash: 9b4acd64387d99a4ad75c87e57045415058ce487ea8c00be86e3ec3d7a4866e0
+updated: 2018-03-05T06:49:53.875933433Z
 imports:
-- name: github.com/bitly/go-simplejson
-  version: aabad6e819789e569bd6aabf444c935aa9ba1e44
-- name: github.com/mozillazg/request
-  version: 052232e32456da4751d789b61e89aba4a07a7e25
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
+- name: github.com/subchen/go-curl
+  version: a09ddc63b01a981ee28a7b8c971f616b42abc348
 - name: github.com/subchen/go-stack
-  version: 10f00aa23ece6705b7e19dc86383b7061f841ca5
+  version: 7f99d6863758cd113b26932785d78885518256ee
   subpackages:
   - cmd
+  - conv
+  - data
+  - data/json
   - encoding/archive
   - encoding/archive/tar
   - encoding/archive/zip
@@ -18,6 +19,7 @@ imports:
   - fs
   - iif
   - runs
+  - ss
 - name: golang.org/x/net
   version: c4c3ea71919de159c9e246d7be66deb7f0a39a58
   subpackages:

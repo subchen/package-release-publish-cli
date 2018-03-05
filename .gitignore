@@ -3,4 +3,5 @@
 /_releases
 /.glide/
 
-/publish-toolset
+/publish-toolset*
+/test.sh

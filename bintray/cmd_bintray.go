@@ -35,10 +35,10 @@ func Command() *cli.Command {
 			},
 		},
 		Commands: []*cli.Command{
-			bintrayCreateRepoCommand(),
-			bintrayCreatePackageCommand(),
-			bintrayCreateVersionCommand(),
-			bintrayUploadCommand(),
+			bintrayRepoCreateCommand(),
+			bintrayPackageCreateCommand(),
+			bintrayVersionCreateCommand(),
+			bintrayFileUploadCommand(),
 		},
 	}
 }

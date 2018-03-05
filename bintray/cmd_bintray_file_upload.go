@@ -7,15 +7,16 @@ import (
 	"os"
 	"path/filepath"
 
-	cli "github.com/subchen/go-cli"
+	"github.com/subchen/go-cli"
 	"github.com/subchen/go-stack/fs"
 	"github.com/subchen/go-stack/iif"
 	"github.com/subchen/go-stack/runs"
 )
 
 // PUT /content/:subject/:repo/:package/:version/:file_path[?publish=0/1][?override=0/1][?explode=0/1]
-func (c *bintrayClient) bintrayUpload(repo string, pkg string, version string, path string, fileContent io.Reader, forceCreate bool) error {
-	url := fmt.Sprintf("%s/content/%s/%s/%s/%s", BINTRAY_API_PREFIX, c.subject, repo, pkg, version, path)
+func (c *bintrayClient) bintrayFileUpload(repo string, pkg string, version string, filepath string, fileContent io.Reader, forceCreate bool) error {
+	url := fmt.Sprintf("%s/content/%s/%s/%s/%s/%s", BINTRAY_API_PREFIX, c.subject, repo, pkg, version, filepath)
+	fmt.Println(url)
 	req := c.newRequest()
 	req.Headers = map[string]string{
 		"X-Bintray-Publish":  "1",
@@ -34,7 +35,7 @@ var uploadFlags = struct {
 	path       string
 }{}
 
-func bintrayUploadCommand() *cli.Command {
+func bintrayFileUploadCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "upload",
 		Usage: "upload files",
@@ -58,10 +59,9 @@ func bintrayUploadCommand() *cli.Command {
 				EnvVar: "BINTRAY_VERSION",
 			},
 			{
-				Name:     "path",
-				Usage:    "file path in url",
-				Value:    &uploadFlags.path,
-				DefValue: ".",
+				Name:  "path",
+				Usage: "file path in url",
+				Value: &uploadFlags.path,
 			},
 		},
 		Action: func(c *cli.Context) {
@@ -71,13 +71,13 @@ func bintrayUploadCommand() *cli.Command {
 			if bintrayFlags.apikey == "" {
 				panic("no --apikey provided")
 			}
-			if versionFlags.repoName == "" {
+			if uploadFlags.repoName == "" {
 				panic("no --repo provided")
 			}
-			if versionFlags.pkgName == "" {
+			if uploadFlags.pkgName == "" {
 				panic("no --package provided")
 			}
-			if versionFlags.pkgVersion == "" {
+			if uploadFlags.pkgVersion == "" {
 				panic("no --version provided")
 			}
 
@@ -109,6 +109,13 @@ func uploadFile(file string) {
 	defer f.Close()
 
 	c := newBintrayClient(bintrayFlags.subject, bintrayFlags.apikey)
-	err = c.bintrayUpload(uploadFlags.repoName, uploadFlags.pkgName, uploadFlags.pkgVersion, uploadFlags.path, f, bintrayFlags.force)
+	err = c.bintrayFileUpload(
+		uploadFlags.repoName,
+		uploadFlags.pkgName,
+		uploadFlags.pkgVersion,
+		filepath.Join(uploadFlags.path, filepath.Base(file)),
+		f,
+		bintrayFlags.force,
+	)
 	runs.PanicIfErr(err)
 }

@@ -4,5 +4,5 @@ import:
   version: 1.x
 - package: github.com/subchen/go-stack
   version: master
-- package: github.com/subchen/go-cli
+- package: github.com/subchen/go-curl
   version: master
