@@ -2,10 +2,9 @@ package bintray
 
 import (
 	"errors"
-	"net/http"
 
 	"github.com/subchen/go-curl"
-	"github.com/subchen/go-stack/data/json"
+	"github.com/subchen/go-stack/data"
 )
 
 const BINTRAY_API_PREFIX = "https://api.bintray.com"
@@ -39,11 +38,11 @@ func (c *bintrayClient) getRespErr(resp *curl.Response, err error, forceCreate b
 		if resp.StatusCode == 409 && forceCreate {
 			return nil
 		}
-		jq, err := json.NewQuery(resp.Content())
+		json, err := resp.JSON()
 		if err != nil {
 			return errors.New(resp.Status)
 		}
-		return errors.New(jq.Query("message").AsString())
+		return errors.New(data.NewQuery(json).Query("message").AsString())
 	}
 	return nil
 }

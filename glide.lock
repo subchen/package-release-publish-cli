@@ -1,12 +1,12 @@
 hash: 9b4acd64387d99a4ad75c87e57045415058ce487ea8c00be86e3ec3d7a4866e0
-updated: 2018-03-05T06:49:53.875933433Z
+updated: 2018-03-05T07:18:40.889916435Z
 imports:
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
 - name: github.com/subchen/go-curl
-  version: a09ddc63b01a981ee28a7b8c971f616b42abc348
+  version: a08d3f04dc608d52166dfe3ae6e27d411287e905
 - name: github.com/subchen/go-stack
-  version: 7f99d6863758cd113b26932785d78885518256ee
+  version: a3519c8f0414e067fdab79eb2b2175b0cedd26b2
   subpackages:
   - cmd
   - conv
