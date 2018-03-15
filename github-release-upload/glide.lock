@@ -1,5 +1,5 @@
 hash: 26d09ff78edb5a9d5ca9389e50dd19bfaa3692903fbbeb9d384c04b1601cef08
-updated: 2018-03-15T10:24:55.258721861Z
+updated: 2018-03-15T10:24:13.178154995Z
 imports:
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
