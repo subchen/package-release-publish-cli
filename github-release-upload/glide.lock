@@ -1,15 +1,14 @@
 hash: 26d09ff78edb5a9d5ca9389e50dd19bfaa3692903fbbeb9d384c04b1601cef08
-updated: 2018-03-15T10:24:13.178154995Z
+updated: 2018-03-15T15:48:59.050802519Z
 imports:
 - name: github.com/subchen/go-cli
   version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
 - name: github.com/subchen/go-curl
-  version: 4b1b4d6ed7b1941d404d64041f9b9ad8c8da14ae
+  version: ed9947198d23a66e298658a46ff6d3c5a12369fb
 - name: github.com/subchen/go-stack
   version: ce52e238e5d802088f46c8c1b3cd5a528a7bbc2a
   subpackages:
   - fs
-  - iif
   - runs
 - name: golang.org/x/net
   version: c4c3ea71919de159c9e246d7be66deb7f0a39a58

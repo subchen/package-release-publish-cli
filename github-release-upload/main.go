@@ -32,9 +32,14 @@ var (
 
 // https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name
 type githubRelease struct {
-	ID      string `json:"id"`
+	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	TagName string `json:"tag_name"`
+	Assets  []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Size int64  `json:"size"`
+	} `json:"assets"`
 }
 
 func main() {
@@ -95,7 +100,7 @@ func main() {
 			panic("no --tag provided")
 		}
 
-		releaseId := githubGetReleaseId()
+		release := githubGetRelease()
 
 		sourceFiles := c.Args()
 		for _, f := range sourceFiles {
@@ -104,10 +109,10 @@ func main() {
 				runs.PanicIfErr(err)
 
 				for _, file := range files {
-					githubUploadFile(releaseId, filepath.Join(f, file.Name()))
+					githubUploadFile(release, filepath.Join(f, file.Name()))
 				}
 			} else if fs.IsFile(f) {
-				githubUploadFile(releaseId, f)
+				githubUploadFile(release, f)
 			} else {
 				panic("file not exists: " + f)
 			}
@@ -125,15 +130,16 @@ func main() {
 	app.Run(os.Args)
 }
 
-func githubGetReleaseId() string {
+func githubGetRelease() *githubRelease {
 	req := curl.NewRequest(nil)
 	req.WithTokenAuth(token)
 
-	// get release id from tag
+	fmt.Printf("getting release from tag: %s ...\n", tag)
 	releaseURL := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, tag)
 	resp, err := req.Get(releaseURL)
 	runs.PanicIfErr(err)
 
+	//fmt.Println(resp.Text())
 	if !resp.OK() {
 		text, err := resp.Text()
 		runs.PanicIfErr(err)
@@ -144,21 +150,32 @@ func githubGetReleaseId() string {
 	err = resp.JSONUnmarshal(release)
 	runs.PanicIfErr(err)
 
-	return release.ID
+	return release
 }
 
-func githubUploadFile(releaseId string, filename string) {
-	req := curl.NewRequest(nil)
-	req.WithTokenAuth(token)
+func githubUploadFile(release *githubRelease, filename string) {
+	name := filepath.Base(filename)
+	if release.exists(filename) {
+		if !override {
+			panic(fmt.Sprintf("asset already exists: %s", name))
+		}
+		githubDeleteFile(release, name)
+	}
 
-	// upload file into release
+	fmt.Printf("uploading asset: %s ...\n", name)
 	uploadUrl := fmt.Sprintf(
-		"https://uploads.github.com/repos/%s/%s/releases/%s/assets?name=%s",
+		"https://uploads.github.com/repos/%s/%s/releases/%d/assets?name=%s",
 		user,
 		repo,
-		releaseId,
-		url.QueryEscape(filepath.Base(filename)),
+		release.ID,
+		url.QueryEscape(name),
 	)
+	//fmt.Println(uploadUrl)
+
+	req := curl.NewRequest(nil)
+	req.WithTokenAuth(token)
+	req.WithHeader("Content-Type", "application/octet-stream")
+
 	body, err := curl.NewFilePayload(filename)
 	runs.PanicIfErr(err)
 	resp, err := req.Post(uploadUrl, body)
@@ -169,4 +186,30 @@ func githubUploadFile(releaseId string, filename string) {
 		runs.PanicIfErr(err)
 		panic(text)
 	}
+}
+
+func githubDeleteFile(release *githubRelease, name string) {
+	req := curl.NewRequest(nil)
+	req.WithTokenAuth(token)
+
+	fmt.Printf("deleting exists asset: %s ...\n", name)
+	deleteUrl := fmt.Sprintf("/repos/%s/%s/releases/assets/%v", user, repo, release.ID)
+	resp, err := req.Delete(deleteUrl)
+	runs.PanicIfErr(err)
+
+	//fmt.Println(resp.Text())
+	if !resp.OK() {
+		text, err := resp.Text()
+		runs.PanicIfErr(err)
+		panic(text)
+	}
+}
+
+func (r *githubRelease) exists(filename string) bool {
+	for _, asset := range r.Assets {
+		if asset.Name == filename {
+			return true
+		}
+	}
+	return false
 }
