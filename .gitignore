@@ -1,7 +1,6 @@
-.DS_Store
-._.DS_Store
-/_releases
-/.glide/
+*.DS_Store
 
-/publish-toolset*
+**/_releases/
+**/.glide/
+
 /test.sh

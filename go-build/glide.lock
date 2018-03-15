@@ -1,0 +1,12 @@
+hash: f77bb27f0550b4855eda57814aea6e9b7cfc7900d8ee26c32471a6ac446b35cf
+updated: 2018-03-15T06:58:45.025922536Z
+imports:
+- name: github.com/subchen/go-cli
+  version: 9e9dd30beefe71bae40a6c48fd99578be2121c5d
+- name: github.com/subchen/go-stack
+  version: ce52e238e5d802088f46c8c1b3cd5a528a7bbc2a
+  subpackages:
+  - encoding/sha256
+  - fs
+  - runs
+testImports: []

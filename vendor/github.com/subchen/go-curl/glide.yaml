@@ -1,6 +1,0 @@
-package: github.com/subchen/go-curl
-import:
-- package: golang.org/x/net
-  subpackages:
-  - proxy
-  - publicsuffix

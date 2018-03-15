@@ -1,0 +1,6 @@
+package: main
+import:
+- package: github.com/subchen/go-cli
+  version: 1.x
+- package: github.com/subchen/go-stack
+  version: master
