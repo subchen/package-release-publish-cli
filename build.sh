@@ -42,4 +42,4 @@ zip $CWD/_releases/publish-toolset-windows.zip $CWD/_releases/windows/*
 
 "$sha256sum_files" "$CWD/_releases/*.zip"
 
-"$github_release_upload" "$CWD/_releases/"
+"$github_release_upload" "$CWD/_releases/publish-toolset-*"
