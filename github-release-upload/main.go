@@ -64,14 +64,14 @@ func main() {
 		{
 			Name:   "r, repo",
 			Usage:  "GitHub user/repo",
-			Value:  &repo,
 			EnvVar: "GITHUB_REPO, TRAVIS_REPO_SLUG",
+			Value:  &repo,
 		},
 		{
-			Name:  "t, tag",
-			Usage: "GitHub release tag to upload",
-			Value: &tag,
+			Name:   "t, tag",
+			Usage:  "GitHub release tag to upload",
 			EnvVar: "GITHUB_TAG, TRAVIS_TAG",
+			Value:  &tag,
 		},
 		{
 			Name:     "override",
