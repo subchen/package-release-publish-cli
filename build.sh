@@ -15,13 +15,13 @@ for app in $COMPONENTS; do
     cd $CWD/$app && make build
 done
     
-if [ -z "$TARVIS_TAG" ]; then
+if [ -z "$TRAVIS_TAG" ]; then
     exit 0
 fi
 
 echo "Uploading files into github release: $TARVIS_TAG ..."
 
-#version="${TARVIS_TAG}"
+#version="${TRAVIS_TAG}"
 github_release_upload="$CWD/_releases/linux/github-release-upload"
 sha256sum_files="$CWD/_releases/linux/sha256sum-files"
 
