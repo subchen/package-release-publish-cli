@@ -24,7 +24,6 @@ var (
 var (
 	token string
 
-	user     string
 	repo     string
 	tag      string
 	override bool
@@ -63,21 +62,16 @@ func main() {
 			Value:  &token,
 		},
 		{
-			Name:   "u, user",
-			Usage:  "GitHub user",
-			Value:  &user,
-			EnvVar: "GITHUB_REPO",
-		},
-		{
 			Name:   "r, repo",
-			Usage:  "GitHub repo",
+			Usage:  "GitHub user/repo",
 			Value:  &repo,
-			EnvVar: "GITHUB_REPO",
+			EnvVar: "GITHUB_REPO, TRAVIS_REPO_SLUG",
 		},
 		{
 			Name:  "t, tag",
 			Usage: "GitHub release tag to upload",
 			Value: &tag,
+			EnvVar: "GITHUB_TAG, TRAVIS_TAG",
 		},
 		{
 			Name:     "override",
@@ -96,9 +90,6 @@ func main() {
 		if token == "" {
 			panic("no --token provided")
 		}
-		if user == "" {
-			panic("no --user provided")
-		}
 		if repo == "" {
 			panic("no --repo provided")
 		}
@@ -106,7 +97,7 @@ func main() {
 			panic("no --tag provided")
 		}
 
-		release := getRepositoryReleaseByTag(user, repo, tag)
+		release := getRepositoryReleaseByTag(repo, tag)
 
 		sourceFiles := c.Args()
 		for _, f := range sourceFiles {
@@ -136,12 +127,12 @@ func main() {
 	app.Run(os.Args)
 }
 
-func getRepositoryReleaseByTag(user, repo, tag string) *RepositoryRelease {
+func getRepositoryReleaseByTag(repo, tag string) *RepositoryRelease {
 	req := curl.NewRequest(nil)
 	req.WithTokenAuth(token)
 
 	fmt.Printf("getting repository release from tag: %s ...\n", tag)
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, tag)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/releases/tags/%s", repo, tag)
 	resp, err := req.Get(url)
 	runs.PanicIfErr(err)
 
