@@ -42,4 +42,4 @@ zip $CWD/_releases/publish-toolset-windows.zip $CWD/_releases/windows/*
 
 "$sha256sum_files" $CWD/_releases/*.zip
 
-"$github_release_upload" --user=subchen --repo=publish-toolset --tag=$TRAVIS_TAG "$CWD/$app/_releases"
+"$github_release_upload" "$CWD/$app/_releases"
