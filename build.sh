@@ -40,6 +40,6 @@ zip $CWD/_releases/publish-toolset-linux.zip   $CWD/_releases/linux/*
 zip $CWD/_releases/publish-toolset-darwin.zip  $CWD/_releases/darwin/*
 zip $CWD/_releases/publish-toolset-windows.zip $CWD/_releases/windows/*
 
-"$sha256sum_files" $CWD/_releases/*.zip
+"$sha256sum_files" "$CWD/_releases/*.zip"
 
-"$github_release_upload" "$CWD/$app/_releases"
+"$github_release_upload" "$CWD/_releases/"
