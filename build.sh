@@ -19,7 +19,7 @@ if [ -z "$TRAVIS_TAG" ]; then
     exit 0
 fi
 
-echo "Uploading files into github release: $TARVIS_TAG ..."
+echo "Uploading files into github release: $TRAVIS_TAG ..."
 
 #version="${TRAVIS_TAG}"
 github_release_upload="$CWD/_releases/linux/github-release-upload"
