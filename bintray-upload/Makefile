@@ -11,6 +11,7 @@ clean:
 	@ rm -rf $(NAME) ./_releases
 
 glide-vc:
+	@ glide update
 	@ glide-vc --only-code --no-tests --no-legal-files
 
 fmt:

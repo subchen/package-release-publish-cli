@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/subchen/go-cli"
 	"github.com/subchen/go-curl"
@@ -114,7 +115,7 @@ func main() {
 				runs.PanicIfErr(err)
 
 				for _, file := range files {
-					release.uploadAsset(filepath.Join(f, file.Name())
+					release.uploadAsset(filepath.Join(f, file.Name()))
 				}
 			} else if fs.IsFile(f) {
 				release.uploadAsset(f)
@@ -140,8 +141,8 @@ func getRepositoryReleaseByTag(user, repo, tag string) *RepositoryRelease {
 	req.WithTokenAuth(token)
 
 	fmt.Printf("getting repository release from tag: %s ...\n", tag)
-	rURL := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, tag)
-	resp, err := req.Get(rURL)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, tag)
+	resp, err := req.Get(url)
 	runs.PanicIfErr(err)
 
 	//fmt.Println(resp.Text())
@@ -161,7 +162,7 @@ func getRepositoryReleaseByTag(user, repo, tag string) *RepositoryRelease {
 func (r *RepositoryRelease) getAsset(name string) *ReleaseAsset {
 	for _, asset := range r.Assets {
 		if asset.Name == name {
-			return asset
+			return &asset
 		}
 	}
 	return nil
@@ -186,7 +187,7 @@ func (r *RepositoryRelease) uploadAsset(filename string) {
 	runs.PanicIfErr(err)
 
 	fmt.Printf("uploading asset: %s ...\n", name)
-	resp, err := req.Post(rURL, body)
+	resp, err := req.Post(url, body)
 	runs.PanicIfErr(err)
 
 	if !resp.OK() {

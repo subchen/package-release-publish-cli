@@ -22,8 +22,8 @@ fi
 echo "Uploading files into github release: $TARVIS_TAG ..."
 
 #version="${TARVIS_TAG}"
-github_release_upload="$CWD/_releases/linux/github_release_upload"
-sha256sum_files="$CWD/_releases/linux/sha256sum_files"
+github_release_upload="$CWD/_releases/linux/github-release-upload"
+sha256sum_files="$CWD/_releases/linux/sha256sum-files"
 
 rm -rf   $CWD/_releases/
 mkdir -p $CWD/_releases/linux
