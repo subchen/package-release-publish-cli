@@ -21,7 +21,7 @@ fi
 
 echo "Uploading files into github release: $TARVIS_TAG ..."
 
-version="${TARVIS_TAG}"
+#version="${TARVIS_TAG}"
 github_release_upload="$CWD/_releases/linux/github_release_upload"
 sha256sum_files="$CWD/_releases/linux/sha256sum_files"
 
@@ -36,9 +36,9 @@ for app in $COMPONENTS; do
     mv -f $CWD/$app/_releases/*-windows-* $CWD/_releases/windows/$app.exe
 done
 
-zip $CWD/_releases/publish-toolset-$version-linux-amd64.zip   $CWD/_releases/linux/*
-zip $CWD/_releases/publish-toolset-$version-darwin-amd64.zip  $CWD/_releases/darwin/*
-zip $CWD/_releases/publish-toolset-$version-windows-amd64.zip $CWD/_releases/windows/*
+zip $CWD/_releases/publish-toolset-linux.zip   $CWD/_releases/linux/*
+zip $CWD/_releases/publish-toolset-darwin.zip  $CWD/_releases/darwin/*
+zip $CWD/_releases/publish-toolset-windows.zip $CWD/_releases/windows/*
 
 "$sha256sum_files" $CWD/_releases/*.zip
 
