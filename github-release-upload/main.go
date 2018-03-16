@@ -172,7 +172,7 @@ func (r *RepositoryRelease) uploadAsset(filename string) {
 	req.WithTokenAuth(token)
 
 	url := strings.TrimSuffix(r.UploadURL, "{?name,label}")
-	url = curl.NewURL(url, []string{"name", name})
+	url = curl.NewURL(url, map[string]string{"name": name})
 
 	body, err := curl.NewFilePayload(filename)
 	runs.PanicIfErr(err)
