@@ -1,6 +1,6 @@
 CWD     := $(shell pwd)
 NAME    := sha256sum-files
-VERSION := 0.1.0
+VERSION := 0.0.0
 
 PACKAGES := $(shell go list ./... | grep -v /vendor/)
 

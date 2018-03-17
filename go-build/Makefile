@@ -1,8 +1,11 @@
 CWD     := $(shell pwd)
 NAME    := go-build
-VERSION := 0.1.0
+VERSION := 0.0.0
 
 PACKAGES := $(shell go list ./... | grep -v /vendor/)
+
+all:
+	echo $(VERSION)
 
 default:
 	@ echo "no default target for Makefile"

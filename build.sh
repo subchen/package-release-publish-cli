@@ -2,6 +2,8 @@
 
 CWD=$(cd $(dirname $0); pwd)
 
+VERSION=0.1.0
+
 COMPONENTS="
     go-build
     sha256sum-files
@@ -12,7 +14,7 @@ COMPONENTS="
 echo "Building publish-toolset ..."
 
 for app in $COMPONENTS; do
-    cd $CWD/$app && make build
+    cd $CWD/$app && make build VERSION=$VERSION
 done
     
 if [ -z "$TRAVIS_TAG" ]; then
