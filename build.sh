@@ -37,9 +37,9 @@ for app in $COMPONENTS; do
     mv -f $CWD/$app/_releases/*-windows-* $CWD/_releases/windows/$app.exe
 done
 
-zip $CWD/_releases/publish-toolset-linux.zip   $CWD/_releases/linux/*
-zip $CWD/_releases/publish-toolset-darwin.zip  $CWD/_releases/darwin/*
-zip $CWD/_releases/publish-toolset-windows.zip $CWD/_releases/windows/*
+cd $CWD/_releases/linux/   && zip ../publish-toolset-linux.zip   *
+cd $CWD/_releases/darwin/  && zip ../publish-toolset-darwin.zip  *
+cd $CWD/_releases/windows/ && zip ../publish-toolset-windows.zip *
 
 "$sha256sum_files" $CWD/_releases/*.zip
 
