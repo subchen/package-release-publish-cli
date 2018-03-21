@@ -42,7 +42,7 @@ func (c *Context) Global() *Context {
 func (c *Context) IsSet(name string) bool {
 	f := lookupFlag(c.flags, name)
 	if f != nil {
-		return f.Visited
+		return f.visited
 	}
 	return false
 }
@@ -210,6 +210,10 @@ func (c *Context) NArg() int {
 	return len(c.args)
 }
 
+func (c *Context) Arg(n int) string {
+	return c.args[n]
+}
+
 func (c *Context) Args() []string {
 	return c.args
 }
@@ -220,6 +224,11 @@ func (c *Context) ShowHelp() {
 	} else {
 		c.app.ShowHelp(newAppHelpContext(c.name, c.app))
 	}
+}
+
+func (c *Context) ShowHelpAndExit(code int) {
+	c.ShowHelp()
+	os.Exit(code)
 }
 
 func (c *Context) ShowError(err error) {

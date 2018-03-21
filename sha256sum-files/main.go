@@ -30,8 +30,7 @@ func main() {
 
 	app.Action = func(c *cli.Context) {
 		if c.NArg() == 0 {
-			c.ShowHelp()
-			os.Exit(0)
+			c.ShowHelpAndExit(0)
 		}
 
 		for _, f := range c.Args() {

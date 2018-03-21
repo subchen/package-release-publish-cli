@@ -78,8 +78,7 @@ func main() {
 
 	app.Action = func(c *cli.Context) {
 		if c.NArg() < 2 {
-			c.ShowHelp()
-			os.Exit(0)
+			c.ShowHelpAndExit(0)
 		}
 
 		if apikey == "" {

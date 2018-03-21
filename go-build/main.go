@@ -77,8 +77,7 @@ func main() {
 
 	app.Action = func(c *cli.Context) {
 		if len(os.Args) == 0 {
-			c.ShowHelp()
-			os.Exit(0)
+			c.ShowHelpAndExit(0)
 		}
 
 		if appName == "" {
