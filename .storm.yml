@@ -1,0 +1,48 @@
+project:
+  name: storm
+  version: 1.0.0
+  module: github.com/subchen/strom
+lint:
+  - golangci-lint run --enable-all
+  - checklicense
+generate:
+  - go generate
+  - go-bindata ...
+  - addlicenses
+build:
+#   binaries:
+#     - name: tool1
+#       path: ./cmd/tool1
+#     - name: tool2
+#       path: ./cmd/tool2
+  env:
+    - CGO_ENABLED=0
+  flags: -a -tags netgo
+  ldflags: |
+    -s
+    -w
+    -X "main.BuildVersion={{.Version}}"
+    -X "main.BuildInfo={{.BuilInfo}}"
+    -extldflags '-static'
+  platforms:
+    - linux/amd64
+    - darwin/amd64
+package:
+  tarball:
+    includes:
+      - docs/*.md
+      - LICENSE
+  rpm:
+    prefix: /usr/local/bin
+    desc: ""
+  checksum:
+    algo: sha256
+release:
+  github-release:
+    token: "{{ .Env.GITHUB_TOKEN }}"
+  bintray:
+    path: user/repo/latest/xxx
+    token: "{{ .Env.BINTRAY_TOKEN }}"
+  homebrew-tap:
+    repo: github.com/subchen/homebrew-tap
+    token: "{{ .Env.GITHUB_TOKEN }}"
