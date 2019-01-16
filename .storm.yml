@@ -17,7 +17,9 @@ build:
 #       path: ./cmd/tool2
   env:
     - CGO_ENABLED=0
-  flags: -a -tags netgo
+  flags: |
+    -a
+    -installsuffix cgo
   ldflags: |
     -s
     -w
@@ -34,6 +36,8 @@ package:
       - LICENSE
   rpm:
     prefix: /usr/local/bin
+    desc: ""
+  deb:
     desc: ""
   checksum:
     algo: sha256
