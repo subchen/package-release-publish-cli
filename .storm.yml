@@ -1,7 +1,7 @@
 project:
   name: storm
   version: 1.0.0
-  module: github.com/subchen/strom
+  desc: ...
 lint:
   - golangci-lint run --enable-all
   - checklicense
@@ -36,9 +36,8 @@ package:
       - LICENSE
   rpm:
     prefix: /usr/local/bin
-    desc: ""
   deb:
-    desc: ""
+    prefix: /usr/local/bin
   checksum:
     algo: sha256
 release:
