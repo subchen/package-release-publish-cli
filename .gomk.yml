@@ -40,6 +40,11 @@ build:
   platforms:
     - linux/amd64
     - darwin/amd64
+  hooks:
+    before:
+      - go mod download
+    after:
+      - ...
 package:
   tarball:
     includes:
