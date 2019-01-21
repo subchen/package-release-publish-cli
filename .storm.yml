@@ -2,6 +2,9 @@ project:
   name: storm
   version: 1.0.0
   desc: ...
+fmt:
+  - go fmt ./...
+  - goimports .
 lint:
   - golangci-lint run --enable-all
   - checklicense
@@ -9,6 +12,7 @@ generate:
   - go generate
   - go-bindata ...
   - addlicenses
+  - changelog
 build:
 #   binaries:
 #     - name: tool1
@@ -16,6 +20,7 @@ build:
 #     - name: tool2
 #       path: ./cmd/tool2
   env:
+    - GO111MODULE=on
     - CGO_ENABLED=0
   flags: |
     -a
@@ -24,7 +29,7 @@ build:
     -s
     -w
     -X "main.BuildVersion={{.Version}}"
-    -X "main.BuildInfo={{.BuilInfo}}"
+    -X "main.BuildInfo={{.BuildInfo}}"
     -extldflags '-static'
   platforms:
     - linux/amd64
@@ -38,8 +43,9 @@ package:
     prefix: /usr/local/bin
   deb:
     prefix: /usr/local/bin
-  checksum:
-    algo: sha256
+checksum:
+  algo: sha256
+  single-file: checksums.txt
 release:
   github-release:
     token: "{{ .Env.GITHUB_TOKEN }}"
@@ -49,3 +55,10 @@ release:
   homebrew-tap:
     repo: github.com/subchen/homebrew-tap
     token: "{{ .Env.GITHUB_TOKEN }}"
+  docker:
+    registry: hub.docker.io
+    image: subchen/gomk
+    tags:
+      - latest
+      - "{{.Version}}"
+
