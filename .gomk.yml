@@ -1,6 +1,7 @@
 project:
   name: storm
   version: 1.0.0
+  license: Apache-2
   desc: ...
 fmt:
   - go fmt ./...
@@ -16,6 +17,7 @@ generate:
   - changelog
 test:
   - go test ./...
+coverage:
   - go cover ...
 build:
 #   binaries:
@@ -45,6 +47,8 @@ package:
       - LICENSE
   rpm:
     prefix: /usr/local/bin
+    requires:
+    provides:
   deb:
     prefix: /usr/local/bin
 checksum:
@@ -59,12 +63,17 @@ release:
   brew:
     repo: github.com/subchen/homebrew-tap
     token: "{{ .Env.GITHUB_TOKEN }}"
+    folder: Formula
   docker:
     registry: hub.docker.io
     username: "{{ .Env.DOCKER_USERNAME }}"
     password: "{{ .Env.DOCKER_PASSWORD }}"
+    dockerfile: Dockerfile
     image: subchen/gomk
     tags:
       - latest
       - "{{.Version}}"
+    args:
+      - arg1=value1
+      - arg2=value2
 
