@@ -5,6 +5,7 @@ gomk clean
 gomk fmt
 gomk lint
 gomk generate
+gomk test --with-coverage
 gomk build
 gomk build --native
 gomk package
