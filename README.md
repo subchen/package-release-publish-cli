@@ -16,6 +16,7 @@ gomk release --github | --bintray | --docker | --brew
 
 gomk info
 gomk list --gopkgs | --gofiles | --gosrcfiles --gotestfiles
+gomk tools install | status
 
 gomk build --only
 ```
