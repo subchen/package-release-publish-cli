@@ -4,14 +4,14 @@ import "regexp"
 
 // SplitParameters splits shell command parameters, taking quoting in account.
 func SplitParameters(s string) []string {
-	r := regexp.MustCompile(`"[^']*"|'[^']*'|[^ ]+`)
+	r := regexp.MustCompile(`"[^"]*"|'[^']*'|[^ ]+`)
 	params := r.FindAllString(s, -1)
 	return unquote(params)
 }
 
 // SplitAttrs returns
 func SplitAttrs(s string) []string {
-	r := regexp.MustCompile(`"[^']*"|'[^']*'|\[[^]]*\]|[^.]+`)
+	r := regexp.MustCompile(`"[^"]*"|'[^']*'|\[[^]]*\]|[^.]+`)
 	params := r.FindAllString(s, -1)
 	return unquote(params)
 }
