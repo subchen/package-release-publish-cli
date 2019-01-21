@@ -56,6 +56,10 @@ package:
     provides:
   deb:
     prefix: /usr/local/bin
+  script:
+    shells:
+      - ...
+      - ...
 checksum:
   algo: sha256
   single-file: checksums.txt
@@ -81,4 +85,8 @@ release:
     args:
       - arg1=value1
       - arg2=value2
+  script:
+    shells:
+      - ...
+      - ...
 
