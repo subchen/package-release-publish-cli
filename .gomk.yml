@@ -47,12 +47,12 @@ checksum:
   algo: sha256
   single-file: checksums.txt
 release:
-  github-release:
+  github:
     token: "{{ .Env.GITHUB_TOKEN }}"
   bintray:
     path: user/repo/latest/xxx
     token: "{{ .Env.BINTRAY_TOKEN }}"
-  homebrew-tap:
+  brew:
     repo: github.com/subchen/homebrew-tap
     token: "{{ .Env.GITHUB_TOKEN }}"
   docker:
